@@ -342,7 +342,7 @@ const Signup = ({navigation}) => {
                                         resizeMode="cover" 
                                         source={require('./../assets/img/google-logo.png')}     
                                     />
-                                    <ButtonText google={true}>Login with Google</ButtonText>
+                                    <ButtonText google={true}>Register with Google</ButtonText>
                                 </StyledButton>
                             )}                            
                             {googleSubmitting && (
