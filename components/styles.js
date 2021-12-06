@@ -141,9 +141,9 @@ export const StyledInputLabel = styled.Text`
 
 export const RightIcon = styled.TouchableOpacity`
     padding-horizontal: 15px;
-    padding-vertical: 3px;
-    right: 5px;
-    top: 40px;
+    padding-vertical: 15px;
+    right: 3px;
+    top: 31px;
     position: absolute;
     z-index: 1;
 `;
@@ -177,7 +177,6 @@ export const SelectRightIcon = styled.TouchableOpacity`
 `;
 
 export const StyledButton = styled.TouchableOpacity`
-    padding: 15px;
     background-color: ${blue};
     justify-content: center;
     align-items: center;
@@ -198,7 +197,6 @@ export const StyledButton = styled.TouchableOpacity`
         border: 0.5px;
         border-color: ${facebook};
         flex-direction: row;
-        justify-content: center; 
         margin-top: 15px;
     `}
 `;
@@ -209,12 +207,10 @@ export const ButtonText = styled.Text`
 
     ${(props) => props.google == true && `
         color: ${gray};
-        padding: 25px; 
         font-size: 16px;
     `}
 
     ${(props) => props.facebook == true && `
-        padding: 25px; 
         font-size: 16px;
     `}
 `;
@@ -234,10 +230,12 @@ export const Line = styled.View`
 export const GoogleLogo = styled.Image`
     width: 25px;
     height: 25px;
+    left: -25px;
 `;
 
 export const FacebookLogo = styled.Image`
-    margin-left: 15px;
+    left: -10px;
+    margin-right: 10px;
     width: 30px;
     height: 30px;
 `;
