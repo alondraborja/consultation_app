@@ -1,21 +1,17 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Text, View } from 'react-native';
 
 import { Colors } from '../components/styles';
-
-// credentials context
-import { CredentialsContext } from '../components/CredentialsContext';
 
 // route name
 import { APPOINTMENT, HOME, SETTINGS, WELCOME } from '../constants/routeNames';
 
 import Welcome from '../screens/Welcome';
-import Settings from '../screens/Navigations/Settings';
-import Home from '../screens/Navigations/Home';
-import Appointment from '../screens/Navigations/Appointment';
+import Settings from '../screens/navigations/Settings';
+import Home from '../screens/navigations/Home';
+import Appointment from '../screens/navigations/Appointment';
 
-const { primary, brand } = Colors;
+const {  brand } = Colors;
 
 const HomeNavigator = () => {
     const HomeStack = createStackNavigator();
