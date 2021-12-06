@@ -5,7 +5,7 @@ import {
     InnerContainer, PageTitle, Subtitle, 
     StyledFormArea, StyledButton, ButtonText,
     Colors, Line, WelcomeContainer,
-    Avatar, WelcomeImage
+    Avatar
 } from '../components/styles';
 
 // async storage

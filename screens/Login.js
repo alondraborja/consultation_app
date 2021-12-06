@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Image, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 
 //formik
 import { Formik } from "formik";
@@ -16,15 +16,13 @@ import axios from "axios";
 
 import {
     StyledContainer, InnerContainer, PageLogo,
-    PageTitle, Subtitle, StyledFormArea,
-    StyledTextInput, StyledInputLabel, LeftIcon,
+    Subtitle, StyledFormArea,
+    StyledTextInput, StyledInputLabel, 
     RightIcon, StyledButton, ButtonText,
     Colors, MessageBox, Line,
     GoogleLogo, ExtraView, ExtraText,
-    TextLink, TextLinkContent, SelectInputText, SelectRightIcon, FacebookLogo
+    TextLink, TextLinkContent, FacebookLogo
 } from '../components/styles';
-
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as Google from 'expo-google-app-auth';
 
@@ -154,7 +152,7 @@ const Login = ({navigation}) => {
                 <InnerContainer>
                     <PageLogo resizeMode="cover" source={require('./../assets/img/logo.png')} />
                     {/* <PageTitle>Brgy. Health Center App</PageTitle> */}
-                    <Subtitle>Login</Subtitle>
+                    <Subtitle login={true}>Login</Subtitle>
 
                     <Formik
                         initialValues={{email: '', password: ''}}

@@ -2,11 +2,8 @@ import React, { useState, useContext, Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { 
     View, TouchableOpacity, ActivityIndicator,
-    StyleSheet, Text, Image,
-    SafeAreaView,
-    Button
+    StyleSheet, Text
 } from "react-native";
-import { render } from "react-dom";
 
 //formik
 import { Formik } from "formik";
@@ -53,7 +50,6 @@ const { brand, darkLight, primary, blue } = Colors;
 
 const Signup = ({navigation}) => {
 
-    const [selectedValue, setSelectedValue] = useState("Male");
     const [genderType, setGenderType] = useState('Male');
 
     const [hidePassword, setHidePassword ] = useState(true);
@@ -156,23 +152,6 @@ const Signup = ({navigation}) => {
         <KeyboardAvoidingWrapper>
         <StyledContainer>
             <StatusBar style="light" backgroundColor={brand} />
-            <SafeAreaView style={{flex: 1}}>
-      {/* <View style={styles.container}>
-        <Picker
-          selectedValue={genderType}
-          onValueChange={(itemValue) => {
-            setGenderType(itemValue);
-          }}
-        >
-          <Picker.Item label="Male" value="male" />
-          <Picker.Item label="Female" value="female" />
-        </Picker>
-        {/*Text to show selected picker value*/}
-        {/* <Text style={styles.text}>
-          Selected Value: {genderType}
-        </Text>
-      </View> */}   
-    </SafeAreaView>            
             <InnerContainer>
                 <Subtitle register={true}>Register</Subtitle>
 
@@ -236,17 +215,7 @@ const Signup = ({navigation}) => {
                                 editable={false}
                                 showDatePicker={showDatePicker}
                             />                            
-                            {/* <MyTextInput 
-                                label="Gender"
-                                placeholderTextColor={darkLight}
-                                placeholder="Please enter your gender"
-                                onChangeText={handleChange('gender')}
-                                onBlur={handleBlur('gender')}
-                                value={values.gender}
-                            /> */}
                             <GenderPicker 
-                                selectedValue={selectedValue}
-                                setSelectedValue={setSelectedValue}
                                 genderType={genderType}
                                 setGenderType={setGenderType}
                                 value={genderType}                             
@@ -261,7 +230,7 @@ const Signup = ({navigation}) => {
                             />
                             <MyTextInput 
                                 label="Contact Number"
-                                placeholder="09XX XXX XXXX"
+                                placeholder="09XXXXXXXXX"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('contactNumber')}
                                 onBlur={handleBlur('contactNumber')}
@@ -279,7 +248,6 @@ const Signup = ({navigation}) => {
                                 keyboardType="email-address"
                                 autoCapitalize="none" 
                             />
-                            {/* <SpecializationPicker /> */}
                             <MyTextInput 
                                 label="Password"
                                 icon="lock-closed-outline"
@@ -398,28 +366,45 @@ const MyTextInput = ({
 }
 
 const GenderPicker = ({
-    selectedValue, setSelectedValue, genderType, setGenderType,
+    genderType, setGenderType,
     ...props
 }) => {   
 
     return (
-        <View>
-            <Text style={{fontSize: 16}}>
+        <View style={styles.container}>
+            <Text style={styles.label}>
                 Gender
             </Text>
             <StyledSelectInput>
                 <Picker
+                    style={styles.picker}
                     selectedValue={genderType}
                     onValueChange={(itemValue) => {
                         setGenderType(itemValue);
                     }}
                 >
-                    <Picker.Item label="Male" value="Male" />
-                    <Picker.Item label="Female" value="Female" />
+                    <Picker.Item label="Male" value="Male" style={styles.pickerItem} />
+                    <Picker.Item label="Female" value="Female"  style={styles.pickerItem}/>
                 </Picker>
             </StyledSelectInput>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        marginTop: 5,
+        marginBottom: 15,
+    },
+    label: {
+        fontSize: 16,        
+    },
+    picker: {
+        marginLeft: 5,
+    },
+    pickerItem : {
+        fontSize: 15,
+    }
+})
 
 export default Signup;
