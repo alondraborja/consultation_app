@@ -96,7 +96,11 @@ export const Subtitle = styled.Text`
     font-weight: bold;
     color: ${brand};
     align-self: flex-start;
-    margin-left: 4%;
+    margin-left: 5px;
+
+    ${(props) => props.login && `
+        margin-left: 10px;
+    `}
 
     ${(props) => props.welcome && `
         font-weight: normal,
@@ -126,7 +130,7 @@ export const StyledTextInput = styled.TextInput`
     padding-right: 55px;
     border: ${border};
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 15px;
     height: 50px;
     margin-bottom: 15px;
     color: ${tertiary};
@@ -150,21 +154,15 @@ export const RightIcon = styled.TouchableOpacity`
 
 export const StyledSelectInput = styled.View`
     background-color: ${white};
-    padding-vertical: 15px;
-    padding-horizontal: 5px;
     border: ${border};
     border-radius: 5px;
-    font-size: 12px;
     width: 100%;
-    margin-vertical: 15px;
-
-    ${(props) => props.registerPicker == true && `
-        margin-bottom: 15px;
-    `}
+    margin-vertical: 5px;
 `;
 
 export const SelectInputText = styled.Text`
     color: ${black};
+    margin-left: 10px;
 `;
 
 export const SelectRightIcon = styled.TouchableOpacity`
