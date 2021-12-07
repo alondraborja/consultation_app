@@ -124,15 +124,15 @@ export const StyledFormArea = styled.View`
     flex: 1;
 `;
 
+export const StyledTextInput1 = styled.TextInput`
+    
+`;
+
 export const StyledTextInput = styled.TextInput`
     background-color: ${white};
-    padding: 15px;
-    padding-right: 55px;
-    border: ${border};
-    border-radius: 5px;
+    margin-left: 5px;
     font-size: 15px;
-    height: 50px;
-    margin-bottom: 15px;
+    margin-top: 10px;
     color: ${tertiary};
 `;
 
@@ -145,9 +145,8 @@ export const StyledInputLabel = styled.Text`
 
 export const RightIcon = styled.TouchableOpacity`
     padding-horizontal: 15px;
-    padding-vertical: 15px;
-    right: 3px;
-    top: 31px;
+    padding-vertical: 13px;
+    right: 1px;
     position: absolute;
     z-index: 1;
 `;
@@ -271,3 +270,8 @@ export const TextLinkContent = styled.Text`
     `}
 `;
 
+
+// For screens styling
+export const Wrapper = styled.View`
+    padding: 20px;
+`;
