@@ -46,7 +46,7 @@ import {
 } from '../components/styles';
 
 //colors
-const { brand, darkLight, primary, blue } = Colors;
+const { brand, darkLight, primary, blue, border, white, tertiary, red } = Colors;
 
 const Signup = ({navigation}) => {
 
@@ -200,7 +200,6 @@ const Signup = ({navigation}) => {
                                 placeholder="ex. Juan Dela Cruz"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('fullName')}
-                                onBlur={handleBlur('fullName')}
                                 value={values.fullName}
                             />
                             <MyTextInput 
@@ -209,7 +208,6 @@ const Signup = ({navigation}) => {
                                 placeholder="DD/MM/YY"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('dateOfBirth')}
-                                onBlur={handleBlur('dateOfBirth')}
                                 value={dob ? dob.toDateString() : ''}
                                 isDate={true}
                                 editable={false}
@@ -225,7 +223,6 @@ const Signup = ({navigation}) => {
                                 placeholder="Please enter your full address"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('address')}
-                                onBlur={handleBlur('address')}
                                 value={values.address}
                             />
                             <MyTextInput 
@@ -233,7 +230,6 @@ const Signup = ({navigation}) => {
                                 placeholder="09XXXXXXXXX"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('contactNumber')}
-                                onBlur={handleBlur('contactNumber')}
                                 value={values.contactNumber}
                                 keyboardType="numeric"
                             />
@@ -243,7 +239,6 @@ const Signup = ({navigation}) => {
                                 placeholder="ex. juandelacruz@gmail.com"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
                                 value={values.email}
                                 keyboardType="email-address"
                                 autoCapitalize="none" 
@@ -254,7 +249,6 @@ const Signup = ({navigation}) => {
                                 placeholder="Please enter your password"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
                                 value={values.password}
                                 secureTextEntry={hidePassword}
                                 isPassword={true}
@@ -267,7 +261,6 @@ const Signup = ({navigation}) => {
                                 placeholder="Please enter again your password"
                                 placeholderTextColor={darkLight}
                                 onChangeText={handleChange('confirmPassword')}
-                                onBlur={handleBlur('confirmPassword')}
                                 value={values.confirmPassword}
                                 secureTextEntry={hideConfirmPassword}
                                 isConfirmPassword={true}
@@ -336,42 +329,59 @@ const Signup = ({navigation}) => {
 }
 
 const MyTextInput = ({
-    label, icon, isPassword, 
+    icon, label, isPassword, isConfirmPassword,
     hidePassword, setHidePassword,
-    isConfirmPassword, hideConfirmPassword, setHideConfirmPassword,
-    isDate, showDatePicker, isGender, 
-    selectedValue, setSelectedValue, genderType, setGenderType,
-    ...props
+    hideConfirmPassword, setHideConfirmPassword,
+    error, isDate, showDatePicker, ...props
 }) => {
+    const [focused, setFocused] = useState(false);
+    const getBorderColor = () => {
+        if (focused){
+            return blue;
+        }
+        if (error){
+            return red;
+        }
+        else {
+            return border;
+        }
+    }
     return (
-    <View>
-        <StyledInputLabel>{label}</StyledInputLabel>
-        {!isDate && <StyledTextInput {...props} />}
-        {isDate && (
-            <TouchableOpacity onPress={showDatePicker}>
-                <StyledTextInput {...props} />
-            </TouchableOpacity>
-        )}
-        {isPassword && (
-            <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye' } size={18} color={darkLight} />
-            </RightIcon>
-        )}
-        {isConfirmPassword && (
-            <RightIcon onPress={() => setHideConfirmPassword(!hideConfirmPassword)}>
-                <Ionicons name={hideConfirmPassword ? 'md-eye-off' : 'md-eye' } size={18} color={darkLight} />
-            </RightIcon>
-        )}
-    </View>);
+        <View style={styles.container}>
+            <StyledInputLabel>{label}</StyledInputLabel>
+            <View style={[styles.wrapper,{borderColor: getBorderColor()}]}>
+                {!isDate && 
+                <StyledTextInput 
+                    onFocus={() => {setFocused(true)}}
+                    onBlur={() => {setFocused(false)}}
+                    {...props}                 
+                />}
+                {isDate && (
+                    <TouchableOpacity onPress={showDatePicker}>
+                        <StyledTextInput {...props} />
+                    </TouchableOpacity>
+                )}
+                {isPassword && (
+                    <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                        <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye' } size={20} color={darkLight} />
+                    </RightIcon>
+                )}
+                {isConfirmPassword && (
+                    <RightIcon onPress={() => setHideConfirmPassword(!hideConfirmPassword)}>
+                        <Ionicons name={hideConfirmPassword ? 'md-eye-off' : 'md-eye' } size={18} color={darkLight} />
+                    </RightIcon>
+                )}
+            </View>
+        </View>
+    );
 }
 
 const GenderPicker = ({
     genderType, setGenderType,
     ...props
-}) => {   
-
+}) => {  
     return (
-        <View style={styles.container}>
+        <View style={styles.genderPickerContainer}>
             <Text style={styles.label}>
                 Gender
             </Text>
@@ -392,7 +402,7 @@ const GenderPicker = ({
 }
 
 const styles = StyleSheet.create({
-    container: {
+    genderPickerContainer: {
         marginTop: 5,
         marginBottom: 15,
     },
@@ -404,7 +414,30 @@ const styles = StyleSheet.create({
     },
     pickerItem : {
         fontSize: 15,
-    }
+    },
+    container: {
+        marginBottom: 15,
+    },
+    wrapper:{
+        height: 50,
+        borderColor: border,
+        backgroundColor: white,
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,          
+    },
+    textInput: {
+        backgroundColor: white,
+        marginLeft: 5,
+        fontSize: 15,
+        marginTop: 10,
+        color: tertiary,
+    },
+    error: {
+        color: red,
+        paddingLeft: 5,
+        fontSize: 12,
+    },
 })
 
 export default Signup;

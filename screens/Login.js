@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 
 //formik
 import { Formik } from "formik";
@@ -35,7 +35,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "../components/CredentialsContext";
 
 //colors
-const { primary, brand, darkLight, blue } = Colors;
+const { primary, brand, darkLight, blue, border, white, tertiary, red } = Colors;
 
 const Login = ({navigation}) => {
 
@@ -147,7 +147,7 @@ const Login = ({navigation}) => {
 
     return (
         <KeyboardAvoidingWrapper>
-            <StyledContainer backgroundColor={brand}>
+            <StyledContainer>
                 <StatusBar style="light" backgroundColor={brand} />
                 <InnerContainer>
                     <PageLogo resizeMode="cover" source={require('./../assets/img/logo.png')} />
@@ -165,14 +165,13 @@ const Login = ({navigation}) => {
                             }
                         }}
                     >
-                        {({handleChange, handleBlur, handleSubmit, values, isSubmitting}) => (
+                        {({handleChange, handleSubmit, values, isSubmitting}) => (
                             <StyledFormArea>
                                 <MyTextInput 
                                     label="Email"
                                     placeholder="someone@email.com"
                                     placeholderTextColor={darkLight}
                                     onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
                                     value={values.email}
                                     keyboardType="email-address"
                                     autoCapitalize="none" 
@@ -182,7 +181,6 @@ const Login = ({navigation}) => {
                                     placeholder="Please enter your password"
                                     placeholderTextColor={darkLight}
                                     onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
                                     value={values.password}
                                     secureTextEntry={hidePassword}
                                     isPassword={true}
@@ -190,7 +188,6 @@ const Login = ({navigation}) => {
                                     setHidePassword={setHidePassword}
                                 />
                                 <MessageBox type={messageType}>{message}</MessageBox>
-                                {/* <MessageBox type={messageType}>{message}</MessageBox> */}
                                 {!isSubmitting && (
                                     <StyledButton onPress={handleSubmit}>
                                         <ButtonText>Login</ButtonText>
@@ -247,18 +244,73 @@ const Login = ({navigation}) => {
 const MyTextInput = ({
     icon, label, isPassword, 
     hidePassword, setHidePassword,
-
-    ...props
+    error, ...props
 }) => {
-    return (<View>
-        <StyledInputLabel>{label}</StyledInputLabel>
-        <StyledTextInput {...props} />
-        {isPassword && (
-            <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye' } size={20} color={darkLight} />
-            </RightIcon>
-        )}
-    </View>);
+    const [focused, setFocused] = useState(false);
+    const getBorderColor = () => {
+        if (focused){
+            return blue;
+        }
+        if (error){
+            return red;
+        }
+        else {
+            return border;
+        }
+    }
+
+    return (
+        <View style={styles.container}>
+            <StyledInputLabel>{label}</StyledInputLabel>
+            <View style={[styles.wrapper,{borderColor: getBorderColor()}]}>
+                <StyledTextInput 
+                    onFocus={() => {setFocused(true)}}
+                    onBlur={() => {setFocused(false)}}
+                    {...props}
+                />
+                {/* background-color: ${white};
+                padding: 15px;
+                padding-right: 55px;
+                border: ${border}; 
+                border-radius: 5px;
+                font-size: 15px;
+                height: 50px;
+                margin-bottom: 15px;
+                color: ${tertiary}; */}
+                {isPassword && (
+                    <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                        <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye' } size={20} color={darkLight} />
+                    </RightIcon>
+                )}
+            </View>
+        </View>
+    );
 }
+
+const styles = StyleSheet.create ({
+    container: {
+        marginBottom: 15,
+    },
+    wrapper:{
+        height: 50,
+        borderColor: border,
+        backgroundColor: white,
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,          
+    },
+    textInput: {
+        backgroundColor: white,
+        marginLeft: 5,
+        fontSize: 15,
+        marginTop: 10,
+        color: tertiary,
+    },
+    error: {
+        color: red,
+        paddingLeft: 5,
+        fontSize: 12,
+    },
+})
 
 export default Login;
