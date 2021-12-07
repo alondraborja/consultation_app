@@ -3,9 +3,9 @@ import { Text, View } from 'react-native';
 
 const Appointment = () => {
     return(
-        <View>
+        <ScreenContainer>
             <Text>Appointment Section</Text>
-        </View>
+        </ScreenContainer>
     );
 }
 
