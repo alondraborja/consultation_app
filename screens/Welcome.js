@@ -14,6 +14,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // credentials context
 import { CredentialsContext } from "../components/CredentialsContext";
 
+import ScreenContainer from "../components/ScreenContainer";
+
 //colors
 const { brand } = Colors;
 
@@ -34,7 +36,7 @@ const Welcome = () => {
 
     return (
         <>
-            <StatusBar style="light" backgroundColor={brand} />
+            <ScreenContainer>
             <InnerContainer>                               
                 <WelcomeContainer>
                     <PageTitle welcome={true}>Welcome back,</PageTitle>
@@ -51,6 +53,7 @@ const Welcome = () => {
                     </StyledFormArea>
                 </WelcomeContainer>
             </InnerContainer>
+            </ScreenContainer>
         </>
     );
 }
