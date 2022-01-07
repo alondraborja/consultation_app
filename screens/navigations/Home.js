@@ -7,6 +7,7 @@ const Home = () => {
         <ScreenContainer>
             <Text>Home Section</Text>
         </ScreenContainer>
+        
     );
 }
 

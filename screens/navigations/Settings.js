@@ -7,6 +7,7 @@ const Settings = () => {
         <ScreenContainer>
             <Text>Settings Section</Text>
         </ScreenContainer>
+        
     );
 }
 
