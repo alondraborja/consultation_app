@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import DrawerNavigator from './DrawerNavigator';
 import HomeNavigator from './HomeNavigator';
 import AuthNavigator from './AuthNavigator';
 
@@ -11,7 +12,7 @@ const AppNavContainer = () => {
         <CredentialsContext.Consumer>
             {({ storedCredentials }) => (
                 <NavigationContainer>
-                    { storedCredentials ? <HomeNavigator /> : <AuthNavigator />}
+                    { storedCredentials ? <DrawerNavigator /> : <AuthNavigator />}
                 </NavigationContainer>
             )}
         </CredentialsContext.Consumer> 
