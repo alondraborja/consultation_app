@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ActivityIndicator, StyleSheet, Text } from "react-native";
 
 //formik
 import { Formik } from "formik";
@@ -28,11 +28,16 @@ import * as Google from 'expo-google-app-auth';
 
 import * as Facebook from 'expo-facebook';
 
+//yup
+import * as yup from 'yup';
+
 //async storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // credentials context
 import { CredentialsContext } from "../components/CredentialsContext";
+
+import CustomInput from "../components/common/CustomInput";
 
 //colors
 const { primary, brand, darkLight, blue, border, white, tertiary, red } = Colors;
@@ -46,6 +51,17 @@ const Login = ({navigation}) => {
 
     //context
     const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
+
+    const loginValidationSchema = yup.object().shape({
+        email: yup
+            .string()
+            .email("Please enter a valid email")
+            .required('This field is required'),
+        password: yup
+            .string()
+            .min(8, ({ min }) => `Password must be at least ${min} characters` )
+            .required('This field is required'),
+    })
 
     const handleLogin = (credentials, setSubmitting) => {
         handleMessage(null);
@@ -151,10 +167,9 @@ const Login = ({navigation}) => {
                 <StatusBar style="light" backgroundColor={brand} />
                 <InnerContainer>
                     <PageLogo resizeMode="cover" source={require('./../assets/img/logo.png')} />
-                    {/* <PageTitle>Brgy. Health Center App</PageTitle> */}
                     <Subtitle login={true}>Login</Subtitle>
-
                     <Formik
+                        validationSchema={loginValidationSchema}
                         initialValues={{email: '', password: ''}}
                         onSubmit={(values, {setSubmitting}) => {
                             if (values.email == '' || values.password == ''){
@@ -165,9 +180,9 @@ const Login = ({navigation}) => {
                             }
                         }}
                     >
-                        {({handleChange, handleSubmit, values, isSubmitting}) => (
+                        {({handleChange, handleSubmit, values, isSubmitting, errors, touched, isValid}) => (
                             <StyledFormArea>
-                                <MyTextInput 
+                                <CustomInput 
                                     label="Email"
                                     placeholder="someone@email.com"
                                     placeholderTextColor={darkLight}
@@ -176,7 +191,10 @@ const Login = ({navigation}) => {
                                     keyboardType="email-address"
                                     autoCapitalize="none" 
                                 />
-                                <MyTextInput 
+                                {(errors.email && touched.email) &&
+                                    <Text style={styles.errorText}>{errors.email}</Text>
+                                }
+                                <CustomInput 
                                     label="Password"
                                     placeholder="Please enter your password"
                                     placeholderTextColor={darkLight}
@@ -187,9 +205,12 @@ const Login = ({navigation}) => {
                                     hidePassword={hidePassword}
                                     setHidePassword={setHidePassword}
                                 />
+                                {(errors.password && touched.password) &&
+                                    <Text style={styles.errorText}>{errors.password}</Text>
+                                }
                                 <MessageBox type={messageType}>{message}</MessageBox>
                                 {!isSubmitting && (
-                                    <StyledButton onPress={handleSubmit}>
+                                    <StyledButton onPress={handleSubmit} disabled={!isValid}>
                                         <ButtonText>Login</ButtonText>
                                     </StyledButton>
                                 )}
@@ -268,15 +289,6 @@ const MyTextInput = ({
                     onBlur={() => {setFocused(false)}}
                     {...props}
                 />
-                {/* background-color: ${white};
-                padding: 15px;
-                padding-right: 55px;
-                border: ${border}; 
-                border-radius: 5px;
-                font-size: 15px;
-                height: 50px;
-                margin-bottom: 15px;
-                color: ${tertiary}; */}
                 {isPassword && (
                     <RightIcon onPress={() => setHidePassword(!hidePassword)}>
                         <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye' } size={20} color={darkLight} />
@@ -311,6 +323,12 @@ const styles = StyleSheet.create ({
         paddingLeft: 5,
         fontSize: 12,
     },
+    errorText: {
+        fontSize: 12,
+        paddingLeft: 5,
+        marginTop: -15,
+        color: red,
+    }
 })
 
 export default Login;
