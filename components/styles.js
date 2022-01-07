@@ -146,14 +146,13 @@ export const StyledInputLabel = styled.Text`
 export const RightIcon = styled.TouchableOpacity`
     padding-horizontal: 15px;
     padding-vertical: 13px;
-    right: 1px;
+    right: 5px;
     position: absolute;
     z-index: 1;
 `;
 
 export const StyledSelectInput = styled.View`
     background-color: ${white};
-    border: ${border};
     border-radius: 5px;
     width: 100%;
     margin-vertical: 5px;
@@ -213,8 +212,9 @@ export const ButtonText = styled.Text`
 `;
 
 export const MessageBox = styled.Text`
-    text-align: center;
-    font-size: 13px;
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 3px;
     color: ${(props) => (props.type == 'SUCCESS' ? blue : red)};
 `;
 
